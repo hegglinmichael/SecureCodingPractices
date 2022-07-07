@@ -18,6 +18,10 @@ NOTE:  There is some personal modification you
        own command along with whatever the programmer
        puts in their shell.  SO USE THIS INSTEAD
 
+### This file contains
+1. commandExecution.cpp
+2. commandExecution.h
+3. Examples on how to propperly call the command execution function
 
 ## commandInjection.cpp
 
