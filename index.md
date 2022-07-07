@@ -18,6 +18,6 @@ List of Languages and Topics supported to make searching easier!
 
 | Topics |
 | ------ |
-| commandInjection |
+| executingShellCommands |
 
 
