@@ -5,18 +5,18 @@ This file is meant to contain a copy and paste
 example of a secure way to execute shell commands
 in C++.  
 
-NOTE:  There is some personal modification you
-       SHOULD do.  The stock implementation is
-       still more secure than using system()
-       or popen() due to the fact that both methods
-       "use the shell to launch the program, passing 
-       the command to execute to the shell and 
-       leaving the task of breaking up the command’s 
-       arguments to the shell."[1]  This is extremely
-       danger because certain special characters, 
-       like ';', would allow an attack to run their
-       own command along with whatever the programmer
-       puts in their shell.  SO USE THIS INSTEAD
+NOTE:  There is some personal modification you<br>
+       &emsp;SHOULD do.  The stock implementation is <br>
+       &emsp;still more secure than using system() <br>
+       &emsp;or popen() due to the fact that both methods <br>
+       &emsp;"use the shell to launch the program, passing  <br>
+       &emsp;the command to execute to the shell and  <br>
+       &emsp;leaving the task of breaking up the command’s  <br>
+       &emsp;arguments to the shell."[1]  This is extremely <br>
+       &emsp;danger because certain special characters,  <br>
+       &emsp;like ';', would allow an attack to run their  <br>
+       &emsp;own command along with whatever the programmer  <br>
+       &emsp;puts in their shell.  SO USE THIS INSTEAD  <br>
 
 ### This file contains
 1. commandExecution.cpp
@@ -32,7 +32,11 @@ NOTE:  There is some personal modification you
 #include <sys/types.h>
 #include <unistd.h>
 #include <sys/wait.h>
-   
+  
+SPC_PIPE *spc_popen(const char *path, char *const argv[], char *const envp[]);
+int spc_pclose(SPC_PIPE *p);
+pid_t spc_fork(void);
+
 typedef struct {
   FILE  *read_fd;
   FILE  *write_fd;
@@ -47,11 +51,11 @@ SPC_PIPE *spc_popen(const char *path, char *const argv[], char *const envp[]) {
   p->read_fd = p->write_fd = 0;
   p->child_pid = -1;
    
-  if (pipe(stdin_pipe) =  = -1) {
+  if (pipe(stdin_pipe) == -1) {
     free(p);
     return 0;
   }
-  if (pipe(stdout_pipe) =  = -1) {
+  if (pipe(stdout_pipe) == -1) {
     close(stdin_pipe[1]);
     close(stdin_pipe[0]);
     free(p);
@@ -75,7 +79,7 @@ SPC_PIPE *spc_popen(const char *path, char *const argv[], char *const envp[]) {
     return 0;
   }
    
-  if ((p->child_pid = spc_fork(  )) =  = -1) {
+  if ((p->child_pid = spc_fork(  )) == -1) {
     fclose(p->write_fd);
     fclose(p->read_fd);
     close(stdout_pipe[1]);
@@ -112,19 +116,19 @@ int spc_pclose(SPC_PIPE *p) {
   if (p->child_pid != -1) {
     do {
       pid = waitpid(p->child_pid, &status, 0);
-    } while (pid =  = -1 && errno =  = EINTR);
+    } while (pid == -1 && errno == EINTR);
   }
   if (p->read_fd) fclose(p->read_fd);
   if (p->write_fd) fclose(p->write_fd);
   free(p);
   if (pid != -1 && WIFEXITED(status)) return WEXITSTATUS(status);
-  else return (pid =  = -1 ? -1 : 0);
+  else return (pid == -1 ? -1 : 0);
 }
 
 pid_t spc_fork(void) {
   pid_t childpid;
 
-  if ((childpid = fork(  )) =  = -1) return -1;
+  if ((childpid = fork()) == -1) return -1;
 
   /* Reseed PRNGs in both the parent and the child */
   /* See Chapter 11 for examples */
@@ -133,8 +137,8 @@ pid_t spc_fork(void) {
   if (childpid != 0) return childpid;
 
   /* This is the child process */
-  spc_sanitize_files(  );   /* Close all open files.  See Recipe 1.1 */
-  spc_drop_privileges(1); /* Permanently drop privileges.  See Recipe 1.3 */
+  // spc_sanitize_files();   /* Close all open files.  See Recipe 1.1 */
+  // spc_drop_privileges(1); /* Permanently drop privileges.  See Recipe 1.3 */
 
   return 0;
 }
