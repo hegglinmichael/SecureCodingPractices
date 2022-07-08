@@ -1,5 +1,5 @@
 # Under construction(done soon!)
-# Welcome to executing shell commands in C++!
+## Welcome to executing shell commands in C++!
 
 This file is meant to contain a copy and paste 
 example of a secure way to execute shell commands
@@ -23,7 +23,7 @@ NOTE:   There is some personal modification you<br>
 2. commandExecution.h
 3. Examples on how to propperly call the command execution function
 
-## commandInjection.cpp
+## ExecuteShellCommand.cc
 
 ```
 #include <stdio.h>
@@ -32,7 +32,8 @@ NOTE:   There is some personal modification you<br>
 #include <sys/types.h>
 #include <unistd.h>
 #include <sys/wait.h>
-  
+#include "ExecuteShellCommand.hh" 
+
 SPC_PIPE *spc_popen(const char *path, char *const argv[], char *const envp[]);
 int spc_pclose(SPC_PIPE *p);
 pid_t spc_fork(void);
@@ -42,7 +43,21 @@ typedef struct {
   FILE  *write_fd;
   pid_t child_pid;
 } SPC_PIPE;
-   
+
+/*
+ * Definition:
+ *   This is the main peopen function rewritten
+ *   in a secure manner.  
+ *
+ * @params:
+ *   path: path to the executable: "/bin/ls"
+ *   argv: arguments to pass to the command "-l"
+ *   envp: environment variables the you would like 
+ *         to set EGG=chicken
+ * @return:
+ *   an SPC_PIP structure that contains pipes to 
+ *   read/write data to the shell command executed.
+ **/
 SPC_PIPE *spc_popen(const char *path, char *const argv[], char *const envp[]) {
   int      stdin_pipe[2], stdout_pipe[2];
   SPC_PIPE *p;
@@ -108,7 +123,20 @@ SPC_PIPE *spc_popen(const char *path, char *const argv[], char *const envp[]) {
   close(stdin_pipe[0]);
   return p;
 }
-   
+  
+/*
+ * Definition:
+ *   This method properly closes all the pipes
+ *   once the programmer is done reading and 
+ *   writing to the process.  It also waits
+ *   for the command to end before closing
+ *
+ * @params
+ *   p: the SPC_PIPE struct returned from the 
+ *      spc_popen function
+ * @return
+ *   returns 0 if successful, -1 otherwise
+ */  
 int spc_pclose(SPC_PIPE *p) {
   int   status;
   pid_t pid;
@@ -125,6 +153,17 @@ int spc_pclose(SPC_PIPE *p) {
   else return (pid == -1 ? -1 : 0);
 }
 
+/*
+ * Definition:
+ *   This is the method you can alter!  If you need your
+ *   shell command to drop privileges or anything like that
+ *   add that those methods here.  Example methods are give
+ *   but I can't write a copy and paste example for your 
+ *   specific needs;)  That said it is very easy to do!
+ *
+ * @params: NONE
+ * @return: 0 if successful
+ */
 pid_t spc_fork(void) {
   pid_t childpid;
 
@@ -144,7 +183,17 @@ pid_t spc_fork(void) {
 }
 ```
 
-## commandInjection.h
+## ExecuteShellCommand.hh
+```
+#ifndef MY_ExecuteShellCommand_H // include guard
+#define ExecuteShellCommand_H
+
+SPC_PIPE *spc_popen(const char *path, char *const argv[], char *const envp[]); 
+
+#endif
+```
+
+## Sample Caller
 ```
 
 ```
