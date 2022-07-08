@@ -5,18 +5,18 @@ This file is meant to contain a copy and paste
 example of a secure way to execute shell commands
 in C++.  
 
-NOTE:  There is some personal modification you<br>
-       &emsp;&emsp;&emsp;SHOULD do.  The stock implementation is <br>
-       &emsp;&emsp;&emsp;still more secure than using system() <br>
-       &emsp;&emsp;&emsp;or popen() due to the fact that both methods <br>
-       &emsp;&emsp;&emsp;"use the shell to launch the program, passing  <br>
-       &emsp;&emsp;&emsp;the command to execute to the shell and  <br>
-       &emsp;&emsp;&emsp;leaving the task of breaking up the command’s  <br>
-       &emsp;&emsp;&emsp;arguments to the shell."[1]  This is extremely <br>
-       &emsp;&emsp;&emsp;danger because certain special characters,  <br>
-       &emsp;&emsp;&emsp;like ';', would allow an attack to run their  <br>
-       &emsp;&emsp;&emsp;own command along with whatever the programmer  <br>
-       &emsp;&emsp;&emsp;puts in their shell.  SO USE THIS INSTEAD  <br>
+NOTE:   There is some personal modification you<br>
+       &emsp;&emsp;&emsp;&emsp;SHOULD do.  The stock implementation is <br>
+       &emsp;&emsp;&emsp;&emsp;still more secure than using system() <br>
+       &emsp;&emsp;&emsp;&emsp;or popen() due to the fact that both methods <br>
+       &emsp;&emsp;&emsp;&emsp;"use the shell to launch the program, passing  <br>
+       &emsp;&emsp;&emsp;&emsp;the command to execute to the shell and  <br>
+       &emsp;&emsp;&emsp;&emsp;leaving the task of breaking up the command’s  <br>
+       &emsp;&emsp;&emsp;&emsp;arguments to the shell."[1]  This is extremely <br>
+       &emsp;&emsp;&emsp;&emsp;danger because certain special characters,  <br>
+       &emsp;&emsp;&emsp;&emsp;like ';', would allow an attack to run their  <br>
+       &emsp;&emsp;&emsp;&emsp;own command along with whatever the programmer  <br>
+       &emsp;&emsp;&emsp;&emsp;puts in their shell.  SO USE THIS INSTEAD  <br>
 
 ### This file contains
 1. commandExecution.cpp
