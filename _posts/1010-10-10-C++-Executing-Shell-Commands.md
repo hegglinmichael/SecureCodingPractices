@@ -19,8 +19,8 @@ NOTE:   There is some personal modification you<br>
        &emsp;&emsp;&emsp;&emsp;puts in their shell.  SO USE THIS INSTEAD  <br>
 
 ### This file contains
-1. commandExecution.cpp
-2. commandExecution.h
+1. ExecuteShellCommand.cc
+2. ExecuteShellCommand.h
 3. Examples on how to propperly call the command execution function
 
 ## ExecuteShellCommand.cc
