@@ -12,6 +12,20 @@ NOTE: This was made for python3
 
 ## commandExecution.py
 ```
+import subprocess
+
+class ExecuteShellCommand:
+
+    def __init__(self, command_args):
+        self.command_args = command_args
+
+    def execute_shell_command():
+        return_code = subprocess.run(self.command_args, stderr=subprocess.PIPE,stdout=subprocess.PIPE, shell=False)
+        if return_code:
+            return False
+        else:
+            return True
+
 
 ```
 
@@ -20,6 +34,7 @@ NOTE: This was made for python3
 
 ```
 
-
+# References (To the guys who are way smarter then me)
+* https://levelup.gitconnected.com/how-to-execute-shell-commands-properly-in-python-5b90c1a9213f
 
 

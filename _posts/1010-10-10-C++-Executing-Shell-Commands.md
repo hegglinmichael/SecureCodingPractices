@@ -1,4 +1,4 @@
-# Under construction(done soon!)
+
 ## Welcome to executing shell commands in C++!
 
 This file is meant to contain a copy and paste 
