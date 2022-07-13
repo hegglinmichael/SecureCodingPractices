@@ -195,8 +195,31 @@ SPC_PIPE *spc_popen(const char *path, char *const argv[], char *const envp[]);
 
 ## Sample Caller
 ```
+// define executable and options
+char executable[] = "/usr/bin/ls";
 
+char var1[] = "-a";
+char *const args[] = {executable, var1, NULL};
+char *const environmentVariables[] = {NULL};
+
+// call the method
+SPC_PIP *myP = spc_popen(executable, args, environmentVariables);
+
+// read the output of the spc_popen method
+char buffer[64];
+std::string completeResults = "";
+
+while(fgets(buffer, 64, myP->read_fd) != NULL) 
+{
+    completeResults += buffer;
+}
+
+spc_pclose(myP);
 ```
+
+Important Takeaways:
+* sanitize your input variables if you are going to take any sort of input that is not hard coded
+* using system and the default popen is dangerous
 
 # References (To the guys who are way smarter than me)
 1. https://www.oreilly.com/library/view/secure-programming-cookbook/0596003943/ch01s07.html
