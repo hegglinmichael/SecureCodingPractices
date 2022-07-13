@@ -15,6 +15,7 @@ List of Languages and Topics supported to make searching easier!
 | Languages | 
 | --------- |  
 | C++ |         
+| Python |
 
 | Topics |
 | ------ |
